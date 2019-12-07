@@ -16,6 +16,9 @@ defmodule Day2 do
     output = elem(final_mem, 0)
 
     IO.puts("part 1: mem position 0 #{output}")
+
+    # part 2
+    find_noun_verb(mem)
   end
 
   def parse_input(str) do
@@ -75,5 +78,26 @@ defmodule Day2 do
         # halt execution, just return final memory values
         mem
     end
+  end
+
+  # part 2
+  def find_noun_verb(mem) do
+    magic_search_val = 19_690_720
+
+    Enum.each(0..99, fn noun ->
+      Enum.each(0..99, fn verb ->
+        if try_noun_verb(mem, noun, verb) == magic_search_val do
+          IO.puts("found noun, verb #{noun}, #{verb}")
+          result = 100 * noun + verb
+          IO.puts("100 * noun + verb = #{result}")
+        end
+      end)
+    end)
+  end
+
+  def try_noun_verb(mem, noun, verb) do
+    restored_mem = put_elem(put_elem(mem, 1, noun), 2, verb)
+    final_mem = exec_intcode_r({0, restored_mem})
+    elem(final_mem, 0)
   end
 end
