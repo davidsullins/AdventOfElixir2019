@@ -18,4 +18,16 @@ defmodule Day1 do
     |> Stream.map(&Day1.count_up_fuel/1)
     |> Enum.sum()
   end
+
+  # part 2
+  def count_up_fuel2(mass) do
+    fuel = count_up_fuel(mass)
+
+    if fuel > 0 do
+      # take fuel needed to transport fuel into account
+      fuel + count_up_fuel2(fuel)
+    else
+      0
+    end
+  end
 end
