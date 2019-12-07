@@ -28,6 +28,8 @@ defmodule Advent2019.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false}
+    ]
   end
 end
