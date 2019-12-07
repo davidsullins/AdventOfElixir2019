@@ -6,6 +6,18 @@ defmodule Day2 do
   but linear time modification because a shallow copy is made
   """
 
+  def day2 do
+    input = String.trim_trailing(File.read!("_input/input2.txt"))
+    mem = parse_input(input)
+
+    # "before running the program, replace position 1 with the value 12 and replace position 2 with the value 2"
+    restored_mem = put_elem(put_elem(mem, 1, 12), 2, 2)
+    final_mem = exec_intcode_r({0, restored_mem})
+    output = elem(final_mem, 0)
+
+    IO.puts("part 1: mem position 0 #{output}")
+  end
+
   def parse_input(str) do
     # converts a string like "1,2,3" into a tuple like {1,2,3}
     str
