@@ -1,10 +1,5 @@
 defmodule Advent2019Test do
   use ExUnit.Case
-  doctest Advent2019
-
-  test "the truth" do
-    assert 1 + 1 == 2
-  end
 
   test "day 1 part 1" do
     assert Day1.count_up_fuel(12) == 2
