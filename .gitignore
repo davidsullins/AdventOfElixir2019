@@ -21,3 +21,6 @@ erl_crash.dump
 
 # elixir language server
 .elixir_ls/
+
+# directory I store my local puzzle input in
+_input/
