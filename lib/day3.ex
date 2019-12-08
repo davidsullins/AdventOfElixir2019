@@ -75,15 +75,22 @@ defmodule Day3 do
     # finds closest intersection to {0,0} not including {0,0} itself
     # input is expected to be one path per line, two lines
     str
-    |> String.split("\n")
-    |> Enum.map(&parse_path/1)
-    |> Enum.map(&MapSet.delete(&1, {0, 0}))
     |> find_intersections()
     |> Enum.map(&manhattan_distance/1)
     |> Enum.min()
   end
 
-  defp find_intersections([path1, path2]) do
+  defp find_intersections(str) do
+    # finds intersections of 2 paths not including {0,0} itself
+    # input is expected to be one path per line, two lines
+    str
+    |> String.split("\n")
+    |> Enum.map(&parse_path/1)
+    |> Enum.map(&MapSet.delete(&1, {0, 0}))
+    |> find_intersections_paths()
+  end
+
+  defp find_intersections_paths([path1, path2]) do
     # inputs expected to be MapSets of coordinate tuples
     MapSet.intersection(path1, path2)
   end
