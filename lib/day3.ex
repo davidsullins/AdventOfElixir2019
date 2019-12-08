@@ -5,9 +5,11 @@ defmodule Day3 do
   """
 
   def day3 do
-    # TODO
-    input = String.trim_trailing(File.read!("_input/input3.txt"))
-    dist = find_intersection_distance(input)
+    dist =
+      File.read!("_input/input3.txt")
+      |> String.trim_trailing()
+      |> find_intersection_distance
+
     IO.puts("day 3 part 1: min intersection distance #{dist}")
   end
 
@@ -40,7 +42,7 @@ defmodule Day3 do
     {x - 1, y}
   end
 
-  def parse_movement({x, y}, str) do
+  defp parse_movement({x, y}, str) do
     # given a starting point and a string like "R3" or "U2", return a set of points in a path
     dir =
       case String.first(str) do
@@ -58,13 +60,13 @@ defmodule Day3 do
     create_path({x, y}, dir, count)
   end
 
-  def parse_path(str) do
+  defp parse_path(str) do
     # converts a string like "R3,U2" into a MapSet like [{0,0},{1,0},{2,0},{3,0},{3,1},{3,2}]
     str
     |> String.trim_trailing()
     |> String.split(",")
     |> Enum.reduce([{0, 0}], fn x, acc ->
-      Enum.concat(acc, Day3.parse_movement(List.last(acc), x))
+      Enum.concat(acc, parse_movement(List.last(acc), x))
     end)
     |> MapSet.new()
   end
@@ -75,15 +77,15 @@ defmodule Day3 do
     paths =
       str
       |> String.split("\n")
-      |> Enum.map(&Day3.parse_path/1)
+      |> Enum.map(&parse_path/1)
       |> Enum.map(&MapSet.delete(&1, {0, 0}))
 
     MapSet.intersection(hd(paths), Enum.at(paths, 1))
-    |> Enum.map(&Day3.manhattan_distance/1)
+    |> Enum.map(&manhattan_distance/1)
     |> Enum.min()
   end
 
-  def manhattan_distance({x, y}) do
+  defp manhattan_distance({x, y}) do
     abs(x) + abs(y)
   end
 end
