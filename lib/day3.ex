@@ -74,15 +74,18 @@ defmodule Day3 do
   def find_intersection_distance(str) do
     # finds closest intersection to {0,0} not including {0,0} itself
     # input is expected to be one path per line, two lines
-    paths =
-      str
-      |> String.split("\n")
-      |> Enum.map(&parse_path/1)
-      |> Enum.map(&MapSet.delete(&1, {0, 0}))
-
-    MapSet.intersection(hd(paths), Enum.at(paths, 1))
+    str
+    |> String.split("\n")
+    |> Enum.map(&parse_path/1)
+    |> Enum.map(&MapSet.delete(&1, {0, 0}))
+    |> find_intersections()
     |> Enum.map(&manhattan_distance/1)
     |> Enum.min()
+  end
+
+  defp find_intersections([path1, path2]) do
+    # inputs expected to be MapSets of coordinate tuples
+    MapSet.intersection(path1, path2)
   end
 
   defp manhattan_distance({x, y}) do
