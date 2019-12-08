@@ -6,6 +6,9 @@ defmodule Day3 do
 
   def day3 do
     # TODO
+    input = String.trim_trailing(File.read!("_input/input3.txt"))
+    dist = find_intersection_distance(input)
+    IO.puts("day 3 part 1: min intersection distance #{dist}")
   end
 
   defp create_path(pos, dir, count) do
