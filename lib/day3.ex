@@ -63,12 +63,18 @@ defmodule Day3 do
   defp parse_path(str) do
     # converts a string like "R3,U2" into a MapSet like [{0,0},{1,0},{2,0},{3,0},{3,1},{3,2}]
     str
+    |> parse_path_list()
+    |> MapSet.new()
+  end
+
+  defp parse_path_list(str) do
+    # converts a string like "R3,U2" into a list like [{0,0},{1,0},{2,0},{3,0},{3,1},{3,2}]
+    str
     |> String.trim_trailing()
     |> String.split(",")
     |> Enum.reduce([{0, 0}], fn x, acc ->
       Enum.concat(acc, parse_movement(List.last(acc), x))
     end)
-    |> MapSet.new()
   end
 
   def find_intersection_distance(str) do
