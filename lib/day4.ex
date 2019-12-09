@@ -4,11 +4,21 @@ defmodule Day4 do
   """
 
   def day4 do
-    input =
+    [first, last] =
       File.read!("_input/input4.txt")
       |> String.trim_trailing()
+      |> String.split("-")
+      |> Enum.map(&String.to_integer/1)
 
-    # TODO
+    count = count_valid_passwords(first, last)
+
+    IO.puts("day 4 part 1: valid password count #{count}")
+  end
+
+  defp count_valid_passwords(first, last) do
+    first..last
+    |> Enum.filter(&is_valid_password/1)
+    |> length
   end
 
   def is_valid_password(num) do
