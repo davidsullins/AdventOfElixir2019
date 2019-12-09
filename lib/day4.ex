@@ -11,8 +11,10 @@ defmodule Day4 do
       |> Enum.map(&String.to_integer/1)
 
     count = count_valid_passwords(first, last)
-
     IO.puts("day 4 part 1: valid password count #{count}")
+
+    count2 = count_valid_passwords2(first, last)
+    IO.puts("day 4 part 2: valid password count #{count2}")
   end
 
   defp count_valid_passwords(first, last) do
