@@ -55,4 +55,11 @@ defmodule Advent2019Test do
              "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51\nU98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
            ) == 410
   end
+
+  test "day 4 part 1" do
+    # examples from problem description
+    assert Day4.is_valid_password(111_111)
+    refute Day4.is_valid_password(223_450)
+    refute Day4.is_valid_password(123_789)
+  end
 end
