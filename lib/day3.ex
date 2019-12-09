@@ -58,6 +58,10 @@ defmodule Day3 do
       |> String.to_integer()
 
     create_path({x, y}, dir, count)
+    |> tl
+
+    # we need to take the tail because otherwise the beginning gets duplicated
+    # we didn't actually move there
   end
 
   defp parse_path(str) do
@@ -103,5 +107,45 @@ defmodule Day3 do
 
   defp manhattan_distance({x, y}) do
     abs(x) + abs(y)
+  end
+
+  # part 2
+  def find_intersection_path_distance(str) do
+    # finds closest intersection by path length not including {0,0} itself
+    # input is expected to be one path per line, two lines
+    pathstrs =
+      str
+      |> String.split("\n")
+
+    str
+    |> find_intersections()
+    |> Enum.map(&path_distance_total(&1, pathstrs))
+    |> Enum.min()
+  end
+
+  defp path_distance_total(dest, pathstrs) do
+    # dest is a coordinate tuple like {x, y}
+    # pathstrs is a list of path strings like "R3,U2"
+    pathstrs
+    |> Enum.map(&path_distance(dest, &1))
+    |> Enum.sum()
+  end
+
+  defp path_distance(dest, pathstr) do
+    # dest is a coordinate tuple like {x, y}
+    # pathstr is a path string like "R3,U2"
+    # return the path length to dest
+    pathstr
+    |> parse_path_list()
+    |> find_pos_in_list(dest)
+  end
+
+  defp find_pos_in_list(l, target) do
+    # count how many elements of list we have to follow to find target
+    if hd(l) == target do
+      0
+    else
+      1 + find_pos_in_list(tl(l), target)
+    end
   end
 end
