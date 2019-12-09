@@ -62,4 +62,11 @@ defmodule Advent2019Test do
     refute Day4.is_valid_password(223_450)
     refute Day4.is_valid_password(123_789)
   end
+
+  test "day 4 part 2" do
+    # examples from problem description
+    assert Day4.is_valid_password2(112_233)
+    refute Day4.is_valid_password2(123_444)
+    assert Day4.is_valid_password2(111_122)
+  end
 end

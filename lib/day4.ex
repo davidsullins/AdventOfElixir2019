@@ -53,4 +53,25 @@ defmodule Day4 do
       digit_list_from_int(div(x, 10)) ++ [rem(x, 10)]
     end
   end
+
+  # part 2
+  defp count_valid_passwords2(first, last) do
+    first..last
+    |> Enum.filter(&is_valid_password2/1)
+    |> length
+  end
+
+  def is_valid_password2(num) do
+    is_six_digit(num) and exactly_two_adjacent_same(num) and digits_never_decrease(num)
+  end
+
+  defp exactly_two_adjacent_same(num) do
+    # true if number has exactly two adjacent digits the same, like 22 in 122345
+    # has to be exactly 2, so 123444 doesn't count because it's 3 in a row not 2
+    # but 111122 is ok because of the 22
+    num
+    |> digit_list_from_int
+    |> Enum.chunk_by(fn x -> x end)
+    |> Enum.any?(fn x -> length(x) == 2 end)
+  end
 end
