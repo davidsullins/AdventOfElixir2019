@@ -2,15 +2,30 @@ defmodule Day3 do
   @moduledoc """
   advent of code day 3: intersecting wire manhattan distance
   Store a wire's path as a MapSet
+  Part 2 is slow. Probably because it iterates through the list of
+  path positions to count how far to each intersection, and there are
+  potentially many intersections to do this calculation for. It would likely
+  be more efficient to walk the list once, building a map from intersection
+  to path length as we go.
   """
 
   def day3 do
-    dist =
+    input =
       File.read!("_input/input3.txt")
       |> String.trim_trailing()
+
+    manhattan_dist =
+      input
       |> find_intersection_distance
 
-    IO.puts("day 3 part 1: min intersection distance #{dist}")
+    IO.puts("day 3 part 1: min intersection distance #{manhattan_dist}")
+
+    # note: part 2 is slow
+    path_dist =
+      input
+      |> find_intersection_path_distance
+
+    IO.puts("day 3 part 2: min intersection path distance #{path_dist}")
   end
 
   defp create_path(pos, dir, count) do
