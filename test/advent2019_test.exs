@@ -17,17 +17,17 @@ defmodule Advent2019Test do
   end
 
   test "day 2 part 1" do
-    # input parsing
-    assert Day2.parse_input("1,2,3,4,5,37") == {1, 2, 3, 4, 5, 37}
+    # intcode input parsing
+    assert IntCodeState.from_str("1,2,3,4,5,37") == %IntCodeState{pc: 0, mem: {1, 2, 3, 4, 5, 37}}
 
-    # examples from problem description
-    assert Day2.exec_intcode("1,9,10,3,2,3,11,0,99,30,40,50") ==
+    # intcode examples from problem description
+    assert IntCode.exec_intcode("1,9,10,3,2,3,11,0,99,30,40,50") ==
              {3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50}
 
-    assert Day2.exec_intcode("1,0,0,0,99") == {2, 0, 0, 0, 99}
-    assert Day2.exec_intcode("2,3,0,3,99") == {2, 3, 0, 6, 99}
-    assert Day2.exec_intcode("2,4,4,5,99,0") == {2, 4, 4, 5, 99, 9801}
-    assert Day2.exec_intcode("1,1,1,4,99,5,6,0,99") == {30, 1, 1, 4, 2, 5, 6, 0, 99}
+    assert IntCode.exec_intcode("1,0,0,0,99") == {2, 0, 0, 0, 99}
+    assert IntCode.exec_intcode("2,3,0,3,99") == {2, 3, 0, 6, 99}
+    assert IntCode.exec_intcode("2,4,4,5,99,0") == {2, 4, 4, 5, 99, 9801}
+    assert IntCode.exec_intcode("1,1,1,4,99,5,6,0,99") == {30, 1, 1, 4, 2, 5, 6, 0, 99}
   end
 
   test "day 3 part 1" do
