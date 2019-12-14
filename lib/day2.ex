@@ -28,18 +28,19 @@ defmodule Day2 do
 
     Enum.each(0..99, fn noun ->
       Enum.each(0..99, fn verb ->
-        if try_noun_verb(mem, noun, verb) == magic_search_val do
-          IO.puts("found noun, verb #{noun}, #{verb}")
-          result = 100 * noun + verb
-          IO.puts("100 * noun + verb = #{result}")
-        end
+        try_noun_verb(mem, noun, verb, magic_search_val)
       end)
     end)
   end
 
-  def try_noun_verb(mem, noun, verb) do
+  def try_noun_verb(mem, noun, verb, magic_search_val) do
     restored_mem = put_elem(put_elem(mem, 1, noun), 2, verb)
     final_mem = IntCode.exec_intcode_r(%IntCodeState{pc: 0, mem: restored_mem})
-    elem(final_mem, 0)
+
+    if elem(final_mem, 0) == magic_search_val do
+      IO.puts("found noun, verb #{noun}, #{verb}")
+      result = 100 * noun + verb
+      IO.puts("100 * noun + verb = #{result}")
+    end
   end
 end
