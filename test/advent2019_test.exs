@@ -69,4 +69,10 @@ defmodule Advent2019Test do
     refute Day4.is_valid_password2(123_444)
     assert Day4.is_valid_password2(111_122)
   end
+
+  test "day 5 part 1" do
+    # intcode examples from problem description
+    assert IntCode.exec_intcode("1002,4,3,4,33") == {1002, 4, 3, 4, 99}
+    assert IntCode.exec_intcode("1101,100,-1,4,0") == {1101, 100, -1, 4, 99}
+  end
 end
