@@ -41,7 +41,11 @@ defmodule IntCode do
   def exec_intcode_r(state) do
     pc = state.pc
     mem = state.mem
-    opcode = elem(mem, pc)
+    instruction = elem(mem, pc)
+    # opcode is last 2 digits of instruction
+    opcode = rem(instruction, 100)
+    # parameter mode is everything left of last 2 digits
+    parameter_mode = div(instruction, 100)
 
     case opcode do
       1 ->
