@@ -13,7 +13,7 @@ defmodule Day2 do
 
     # "before running the program, replace position 1 with the value 12 and replace position 2 with the value 2"
     restored_mem = put_elem(put_elem(mem, 1, 12), 2, 2)
-    final_mem = IntCode.exec_intcode_r(%IntCodeState{pc: 0, mem: restored_mem})
+    final_mem = elem(IntCode.exec_intcode_r(%IntCodeState{pc: 0, mem: restored_mem}, [], []), 0)
     output = elem(final_mem, 0)
 
     IO.puts("part 1: mem position 0 #{output}")
@@ -35,7 +35,7 @@ defmodule Day2 do
 
   def try_noun_verb(mem, noun, verb, magic_search_val) do
     restored_mem = put_elem(put_elem(mem, 1, noun), 2, verb)
-    final_mem = IntCode.exec_intcode_r(%IntCodeState{pc: 0, mem: restored_mem})
+    final_mem = elem(IntCode.exec_intcode_r(%IntCodeState{pc: 0, mem: restored_mem}, [], []), 0)
 
     if elem(final_mem, 0) == magic_search_val do
       IO.puts("found noun, verb #{noun}, #{verb}")

@@ -22,12 +22,12 @@ defmodule Advent2019Test do
 
     # intcode examples from problem description
     assert IntCode.exec_intcode("1,9,10,3,2,3,11,0,99,30,40,50") ==
-             {3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50}
+             {{3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50}, []}
 
-    assert IntCode.exec_intcode("1,0,0,0,99") == {2, 0, 0, 0, 99}
-    assert IntCode.exec_intcode("2,3,0,3,99") == {2, 3, 0, 6, 99}
-    assert IntCode.exec_intcode("2,4,4,5,99,0") == {2, 4, 4, 5, 99, 9801}
-    assert IntCode.exec_intcode("1,1,1,4,99,5,6,0,99") == {30, 1, 1, 4, 2, 5, 6, 0, 99}
+    assert IntCode.exec_intcode("1,0,0,0,99") == {{2, 0, 0, 0, 99}, []}
+    assert IntCode.exec_intcode("2,3,0,3,99") == {{2, 3, 0, 6, 99}, []}
+    assert IntCode.exec_intcode("2,4,4,5,99,0") == {{2, 4, 4, 5, 99, 9801}, []}
+    assert IntCode.exec_intcode("1,1,1,4,99,5,6,0,99") == {{30, 1, 1, 4, 2, 5, 6, 0, 99}, []}
   end
 
   test "day 3 part 1" do
@@ -72,7 +72,13 @@ defmodule Advent2019Test do
 
   test "day 5 part 1" do
     # intcode examples from problem description
-    assert IntCode.exec_intcode("1002,4,3,4,33") == {1002, 4, 3, 4, 99}
-    assert IntCode.exec_intcode("1101,100,-1,4,0") == {1101, 100, -1, 4, 99}
+    assert IntCode.exec_intcode("1002,4,3,4,33") == {{1002, 4, 3, 4, 99}, []}
+    assert IntCode.exec_intcode("1101,100,-1,4,0") == {{1101, 100, -1, 4, 99}, []}
+    assert IntCode.exec_intcode("3,0,4,0,99", [37]) == {{37, 0, 4, 0, 99}, [37]}
+    # intcode tests I made up for further testing
+    # test input instruction
+    assert IntCode.exec_intcode("3,2,0", [99]) == {{3, 2, 99}, []}
+    # test output instruction
+    assert IntCode.exec_intcode("4,3,99,37", []) == {{4, 3, 99, 37}, [37]}
   end
 end

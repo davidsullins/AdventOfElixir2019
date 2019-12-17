@@ -45,14 +45,22 @@ defmodule IntCode do
     1 => %Opcode{source_parameter_count: 2, parameter_count: 3},
     # mul
     2 => %Opcode{source_parameter_count: 2, parameter_count: 3},
+    # input
+    3 => %Opcode{source_parameter_count: 0, parameter_count: 1},
+    # output
+    4 => %Opcode{source_parameter_count: 1, parameter_count: 1},
     # halt
     99 => %Opcode{parameter_count: 0}
   }
 
-  def exec_intcode(str) do
+  @doc """
+  Execute intcode from a string like "1,0,0,0,99"
+  Return a tuple of the memory state (tuple of integers) and outputs (list of integers)
+  """
+  def exec_intcode(str, inputs \\ []) do
     # return final memory value
     state = IntCodeState.from_str(str)
-    exec_intcode_r(state)
+    exec_intcode_r(state, inputs, [])
   end
 
   def read_parameters(state, opcode, parameter_mode) do
@@ -113,8 +121,8 @@ defmodule IntCode do
     end
   end
 
-  @spec exec_intcode_r(%IntCodeState{}) :: tuple
-  def exec_intcode_r(state) do
+  # @spec exec_intcode_r(%IntCodeState{}, [], []) :: tuple
+  def exec_intcode_r(state, inputs, outputs) do
     pc = state.pc
     mem = state.mem
     instruction = elem(mem, pc)
@@ -133,7 +141,7 @@ defmodule IntCode do
         new_mem = put_elem(mem, dest_addr, result)
 
         new_state = %IntCodeState{pc: pc + 4, mem: new_mem}
-        exec_intcode_r(new_state)
+        exec_intcode_r(new_state, inputs, outputs)
 
       2 ->
         # multiply 2 values
@@ -142,11 +150,28 @@ defmodule IntCode do
         new_mem = put_elem(mem, dest_addr, result)
 
         new_state = %IntCodeState{pc: pc + 4, mem: new_mem}
-        exec_intcode_r(new_state)
+        exec_intcode_r(new_state, inputs, outputs)
+
+      3 ->
+        # read 1 input
+        [dest_addr] = parameters
+        new_mem = put_elem(mem, dest_addr, hd(inputs))
+
+        new_state = %IntCodeState{pc: pc + 2, mem: new_mem}
+        exec_intcode_r(new_state, tl(inputs), outputs)
+
+      4 ->
+        # write 1 output
+        [src] = parameters
+        # note: appending a list like this is slow
+        new_outputs = outputs ++ [src]
+
+        new_state = %IntCodeState{pc: pc + 2, mem: mem}
+        exec_intcode_r(new_state, inputs, new_outputs)
 
       99 ->
         # halt execution, just return final memory values
-        mem
+        {mem, outputs}
     end
   end
 end
