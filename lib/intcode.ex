@@ -177,6 +177,20 @@ defmodule IntCode do
         new_state = %IntCodeState{pc: pc + 2, mem: mem}
         exec_intcode_r(new_state, inputs, new_outputs)
 
+      7 ->
+        # compare if less than
+        [src1, src2, dest_addr] = parameters
+
+        new_mem =
+          if src1 < src2 do
+            put_elem(mem, dest_addr, 1)
+          else
+            put_elem(mem, dest_addr, 0)
+          end
+
+        new_state = %IntCodeState{pc: pc + 4, mem: new_mem}
+        exec_intcode_r(new_state, inputs, outputs)
+
       8 ->
         # compare if equal
         [src1, src2, dest_addr] = parameters

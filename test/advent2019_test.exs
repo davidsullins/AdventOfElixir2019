@@ -84,16 +84,36 @@ defmodule Advent2019Test do
 
   test "day 5 part 2" do
     # intcode examples from problem description
+    # == 8 true
     assert IntCode.exec_intcode("3,9,8,9,10,9,4,9,99,-1,8", [8]) ==
              {{3, 9, 8, 9, 10, 9, 4, 9, 99, 1, 8}, [1]}
 
+    # == 8 false
     assert IntCode.exec_intcode("3,9,8,9,10,9,4,9,99,-1,8", [7]) ==
              {{3, 9, 8, 9, 10, 9, 4, 9, 99, 0, 8}, [0]}
 
+    # < 8 true
+    assert IntCode.exec_intcode("3,9,7,9,10,9,4,9,99,-1,8", [7]) ==
+             {{3, 9, 7, 9, 10, 9, 4, 9, 99, 1, 8}, [1]}
+
+    # < 8 false
+    assert IntCode.exec_intcode("3,9,7,9,10,9,4,9,99,-1,8", [8]) ==
+             {{3, 9, 7, 9, 10, 9, 4, 9, 99, 0, 8}, [0]}
+
+    # == 8 true (immediate)
     assert IntCode.exec_intcode("3,3,1108,-1,8,3,4,3,99", [8]) ==
              {{3, 3, 1108, 1, 8, 3, 4, 3, 99}, [1]}
 
+    # == 8 false (immediate)
     assert IntCode.exec_intcode("3,3,1108,-1,8,3,4,3,99", [7]) ==
              {{3, 3, 1108, 0, 8, 3, 4, 3, 99}, [0]}
+
+    # < 8 true (immediate)
+    assert IntCode.exec_intcode("3,3,1107,-1,8,3,4,3,99", [7]) ==
+             {{3, 3, 1107, 1, 8, 3, 4, 3, 99}, [1]}
+
+    # < 8 false (immediate)
+    assert IntCode.exec_intcode("3,3,1107,-1,8,3,4,3,99", [8]) ==
+             {{3, 3, 1107, 0, 8, 3, 4, 3, 99}, [0]}
   end
 end
