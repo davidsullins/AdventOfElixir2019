@@ -49,6 +49,14 @@ defmodule IntCode do
     3 => %Opcode{source_parameter_count: 0, parameter_count: 1},
     # output
     4 => %Opcode{source_parameter_count: 1, parameter_count: 1},
+    # jump-if-true (jnz)
+    5 => %Opcode{source_parameter_count: 2, parameter_count: 2},
+    # jump-if-false (jz)
+    6 => %Opcode{source_parameter_count: 2, parameter_count: 2},
+    # less-than
+    7 => %Opcode{source_parameter_count: 2, parameter_count: 3},
+    # equals
+    8 => %Opcode{source_parameter_count: 2, parameter_count: 3},
     # halt
     99 => %Opcode{parameter_count: 0}
   }
@@ -168,6 +176,20 @@ defmodule IntCode do
 
         new_state = %IntCodeState{pc: pc + 2, mem: mem}
         exec_intcode_r(new_state, inputs, new_outputs)
+
+      8 ->
+        # compare if equal
+        [src1, src2, dest_addr] = parameters
+
+        new_mem =
+          if src1 == src2 do
+            put_elem(mem, dest_addr, 1)
+          else
+            put_elem(mem, dest_addr, 0)
+          end
+
+        new_state = %IntCodeState{pc: pc + 4, mem: new_mem}
+        exec_intcode_r(new_state, inputs, outputs)
 
       99 ->
         # halt execution, just return final memory values

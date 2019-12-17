@@ -81,4 +81,19 @@ defmodule Advent2019Test do
     # test output instruction
     assert IntCode.exec_intcode("4,3,99,37", []) == {{4, 3, 99, 37}, [37]}
   end
+
+  test "day 5 part 2" do
+    # intcode examples from problem description
+    assert IntCode.exec_intcode("3,9,8,9,10,9,4,9,99,-1,8", [8]) ==
+             {{3, 9, 8, 9, 10, 9, 4, 9, 99, 1, 8}, [1]}
+
+    assert IntCode.exec_intcode("3,9,8,9,10,9,4,9,99,-1,8", [7]) ==
+             {{3, 9, 8, 9, 10, 9, 4, 9, 99, 0, 8}, [0]}
+
+    assert IntCode.exec_intcode("3,3,1108,-1,8,3,4,3,99", [8]) ==
+             {{3, 3, 1108, 1, 8, 3, 4, 3, 99}, [1]}
+
+    assert IntCode.exec_intcode("3,3,1108,-1,8,3,4,3,99", [7]) ==
+             {{3, 3, 1108, 0, 8, 3, 4, 3, 99}, [0]}
+  end
 end
