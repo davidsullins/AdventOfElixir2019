@@ -177,6 +177,19 @@ defmodule IntCode do
         new_state = %IntCodeState{pc: pc + 2, mem: mem}
         exec_intcode_r(new_state, inputs, new_outputs)
 
+      5 ->
+        # jump if not zero (jnz)
+        [compare, jump_addr] = parameters
+
+        new_state =
+          if compare != 0 do
+            %IntCodeState{pc: jump_addr, mem: mem}
+          else
+            %IntCodeState{pc: pc + 3, mem: mem}
+          end
+
+        exec_intcode_r(new_state, inputs, outputs)
+
       6 ->
         # jump if zero (jz)
         [compare, jump_addr] = parameters
