@@ -115,5 +115,13 @@ defmodule Advent2019Test do
     # < 8 false (immediate)
     assert IntCode.exec_intcode("3,3,1107,-1,8,3,4,3,99", [8]) ==
              {{3, 3, 1107, 0, 8, 3, 4, 3, 99}, [0]}
+
+    # jz true, test if input is 0
+    assert IntCode.exec_intcode("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", [0]) ==
+             {{3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, 0, 0, 1, 9}, [0]}
+
+    # jz false, test if input is 0
+    assert IntCode.exec_intcode("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", [37]) ==
+             {{3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, 37, 1, 1, 9}, [1]}
   end
 end
