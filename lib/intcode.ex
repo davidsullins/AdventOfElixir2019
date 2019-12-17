@@ -30,10 +30,8 @@ defmodule IntCode do
   """
 
   def exec_intcode(str) do
-    # return final memory value (as a tuple)
-    # store program state as a tuple of the current program counter and memory value
+    # return final memory value
     state = IntCodeState.from_str(str)
-    # state = {0, parse_input(str)}
     exec_intcode_r(state)
   end
 
